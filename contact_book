@@ -1,0 +1,62 @@
+#contact book
+from sys import exit
+import os
+
+def view():
+    if os.stat("contact_book.txt").st_size == 0:
+     print('Your contact book is empty')
+    with open("contact_book.txt", "r") as txt_file:
+        for x in txt_file:
+            print(x)
+    
+def add():
+    name = input("Name: ") 
+    if name.lower() =="quit":
+        exit()
+    elif name =="":
+        print("name is invalid")
+    else:
+         number = input("Number: ")
+         if number.lower() =="quit":
+             exit()   
+         else:
+             if len(number) != 10 :
+                print("number invalid. Entry will not be entered into your contact book ")
+             elif number =="":
+                print("number invalid. Entry will not be entered into your contact book ")
+             else:
+                number = (f"+1({number[:3]})-{number[3:6]}-{number[6:10]}")
+                with open("contact_book.txt", "a") as txt_file:
+                    txt_file.write(f"Name: {name}   Number: {number}\n")        
+                                                                                                   
+def clear():
+    with open("contact_book.txt", "w") as txt_file:
+        txt_file.close()
+        
+def del_last():
+    file = open("contact_book.txt", "r")
+    lines = file.readlines()
+    file.close()
+    del lines[1]
+    new_file = open("contact_book.txt", "w+")
+    for line in lines:
+        new_file.write(line)
+    new_file.close()
+    with open("contact_book.txt", "r") as txt_file:
+        for x in txt_file:
+            print(x)
+    
+while True:
+    options = input("Pick your preferred action(add/view/quit/clear/delete){type 'quit' to end at any moment}: ").lower()
+    if options == "view":
+        view()
+    elif options =="add":
+        add()
+    elif options =="quit":
+        break
+    elif options =="clear":
+        clear()
+    elif options =="delete":
+        del_last()
+    else:
+        print("Not an option")
